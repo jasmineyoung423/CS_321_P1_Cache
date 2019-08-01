@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -13,6 +10,7 @@ public class Test
 {
 	public static void main(String[] args)
 	{
+		@SuppressWarnings("unused")
 		Test test = new Test(args); // to avoid making all methods static
 		
 	}
@@ -93,6 +91,7 @@ public class Test
 			System.out.println(String.format("The number of global references: %s",(numRefs)));
 			System.out.println(String.format("The number of global cache hits: %s",(numHits+numHits)));
 			System.out.println(String.format("The global hit ratio: %s",(hitRatio)));
+			scan.close();
 		}
 		catch(NumberFormatException nfe)
 		{
@@ -108,6 +107,7 @@ public class Test
 	 * @param String[] args (passed from constructor)*/
 	private void twoLevelCache(String[] args)
 	{
+		Scanner scan = new Scanner("");
 		try
 		{
 			int firstSize = Integer.parseInt(args[1]);
@@ -123,7 +123,8 @@ public class Test
 				System.out.println(String.format("First level cache with %s entries has been created",firstSize));
 				System.out.println(String.format("Second level cache with %s entries has been created",secondSize));
 				File file = new File(args[3]);
-				Scanner scan = new Scanner(file);
+				scan.close();
+				scan = new Scanner(file);
 				String line;
 				double num1Refs = 0;
 				double num2Refs = 0;
@@ -177,10 +178,12 @@ public class Test
 		}
 		catch(NumberFormatException nfe)
 		{
+			scan.close();
 			System.out.println("Please enter integer digits for cache sizes. See README for usage instructions.");
 		}
 		catch(IOException ioe)
 		{
+			scan.close();
 			System.out.println("Error reading file.");
 		}
 	}
